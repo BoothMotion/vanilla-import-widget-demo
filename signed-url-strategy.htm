@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signed Url Strategy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+      html,
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Signed Url Strategy</h1>
+
+    <fieldset>
+      <legend>Signed Url Strategy</legend>
+      <div id="boothmotion-file-upload-signed-url"></div>
+      <div id="boothmotion-result-signed-url"></div>
+    </fieldset>
+
+    <div id="boothmotion-file-upload"></div>
+    <script src="https://www.boothmotion.com/partners/partners.js" async></script>
+
+    <script type="text/javascript">
+      window.addEventListener("load", () => {
+        const BM = new window.BoothMotionSDK({
+          rootSelectorForButton: "#boothmotion-file-upload-signed-url",
+          importStrategy: "signed-url",
+          productType: "start-screen",
+          resolutionId: 2,
+          onReceiveFile: (url) => {
+            document.querySelector("#boothmotion-result-signed-url").innerHTML = url;
+          },
+          onOpen: () => (document.querySelector("#boothmotion-result-signed-url").innerHTML = ""),
+          onClose: () => console.log("popup closed"),
+        }).init();
+      });
+    </script>
+  </body>
+</html>

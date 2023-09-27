@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Return Strategy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+      html,
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>File Return Strategy</h1>
+
+    <fieldset>
+      <legend>Return File Strategy</legend>
+      <div id="boothmotion-return-file"></div>
+      <div id="boothmotion-result"></div>
+    </fieldset>
+
+    <div id="boothmotion-file-upload"></div>
+    <script src="https://www.boothmotion.com/partners/partners.js" async></script>
+
+    <script type="text/javascript">
+      window.addEventListener("load", () => {
+        const BM = new window.BoothMotionSDK({
+          rootSelectorForButton: "#boothmotion-return-file",
+          importStrategy: "file-callback",
+
+          // productType: "animated-overlay",
+          // avoFileFormat: "transparent.hevc.mov",
+
+          onReceiveFile: (file) => {
+            console.log("file chosen via file callback strategy", file);
+
+            // ...Code to upload file to server
+
+            const videoPreview = document.createElement("video");
+            videoPreview.src = URL.createObjectURL(file);
+            videoPreview.autoplay = true;
+            videoPreview.controls = true;
+            videoPreview.muted = true;
+            videoPreview.loop = true;
+            videoPreview.style.maxWidth = "200px";
+
+            const info = document.createElement("pre");
+            info.innerHTML = JSON.stringify(
+              {
+                name: file.name,
+                size: file.size,
+                type: file.type,
+              },
+              null,
+              2
+            );
+
+            const resultContainer = document.querySelector("#boothmotion-result");
+
+            resultContainer.innerHTML = "";
+
+            resultContainer.appendChild(videoPreview);
+            resultContainer.appendChild(info);
+          },
+        }).init();
+      });
+    </script>
+  </body>
+</html>
